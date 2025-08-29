@@ -1,0 +1,98 @@
+id: vizbench_apptainer
+description: An OMNI reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
+version: 0.1
+benchmarker: "Mark D. Robinson, other contributors to be added"
+#storage: http://omnibenchmark.org:9000
+benchmark_yaml_spec: 0.04
+#storage_api: S3
+#storage_bucket_name: foo
+software_backend: apptainer
+software_environments:
+  r-451-bioc-321-apptainer:
+    description: "clustbench on py3.12.6"
+    apptainer: envs/clustbench.sif
+
+#metric_collectors:
+#  - id: plotting
+#    name: "Single-backend metric collector."
+#    software_environment: "rmarkdown"
+#    repository:
+#      url: https://github.com/imallona/clustering_report
+#      commit: 1d6bdf5
+#    inputs:
+#      - metrics.scores
+#    outputs:
+#      - id: plotting.html
+#        path: "{input}/{name}/plotting_report.html"
+
+stages:
+  ## rawdata ##########################################################
+
+  - id: rawdata
+    modules:
+      - id: mouse_pancreas 
+        name: "mouse pancrease dataset from https://pubmed.ncbi.nlm.nih.gov/27667365/
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+          url: https://github.com/markrobinsonuzh/vizbench-r
+          commit: 975ff36
+        parameters:  
+          - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
+    outputs:
+      - id: rawdata.sce
+        path: "{input}/{stage}/{module}/{params}/{dataset}.sce.rds"
+
+#  ## simulation #########################################################
+#  
+#  - id: clustering
+#    modules:
+#      - id: fastcluster
+#        name: "fastcluster algorithm"
+#        software_environment: "clustbench"
+#        repository:
+#          url: https://github.com/imallona/clustbench_fastcluster
+#          # url: /home/imallona/src/clustbench_fastcluster/
+#          commit: "45e43d3"
+#        parameters:
+#          - values: ["--linkage", "median"]
+#          - values: ["--linkage", "centroid"]
+#      - id: sklearn
+#        name: "sklearn"
+#        software_environment: "clustbench"
+#        repository:
+#          url: https://github.com/imallona/clustbench_sklearn
+#          #url: /home/imallona/src/clustbench_sklearn
+#          commit: 5877378
+#        parameters:
+#          - values: ["--method", "birch"]
+#          - values: ["--method", "kmeans"]
+#          # - values: ["--method", "spectral"] ## too slow
+#          - values: ["--method", "gm"]
+
+#    inputs:
+#      - entries:
+#          - data.matrix
+#          - data.true_labels
+#    outputs:
+#      - id: clustering.predicted_ks_range
+#        path: "{input}/{stage}/{module}/{params}/{dataset}_ks_range.labels.gz"
+
+#  - id: metrics
+#    modules:
+#      - id: partition_metrics
+#        name: "clustbench partition metrics"
+#        software_environment: "clustbench"
+#        repository:
+#          url: https://github.com/imallona/clustbench_metrics
+#          commit: 9132d45
+#        parameters:
+#          - values: ["--metric", "adjusted_mi_score"]
+#          - values: ["--metric", "adjusted_rand_score"]
+#    inputs:
+#      - entries:
+#          - clustering.predicted_ks_range
+#          - data.true_labels
+#    outputs:
+#      - id: metrics.scores
+#        path: "{input}/{stage}/{module}/{params}/{dataset}.scores.gz"
+
