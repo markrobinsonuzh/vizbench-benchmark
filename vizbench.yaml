@@ -11,7 +11,7 @@ software_environments:
   r-451-bioc-321-apptainer:
     description: "rocker/tidyverse:4.5.1-based image w/ Bioc (NOTE: BioC/R packages not locked down)"
     apptainer: envs/r-451-bioc-321-apptainer.sif
-
+    conda: envs/r-451-bioc-321.yml
 stages:
   ## rawdata ##########################################################
 
@@ -21,8 +21,10 @@ stages:
         name: "mouse pancrease dataset from https://pubmed.ncbi.nlm.nih.gov/27667365/"
         software_environment: r-451-bioc-321-apptainer
         repository:
-          url: https://github.com/markrobinsonuzh/vizbench-r
-          commit: 71934d6
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: 5b7c441c
+          #url: /home/mark/projects/omb/vizbench/vizbench-r
+          #commit: 5b7c441
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
     outputs:
