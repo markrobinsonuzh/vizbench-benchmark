@@ -26,12 +26,12 @@ From: rocker/tidyverse:4.5.1
     #pip install umap-learn==0.5.8
 
     ## no versioning here - fcps deps
-    Rscript -e 'install.packages("BiocManager")'
-    Rscript -e 'BiocManager::install(c("scDesign3","SingleCellExperiment","readr","rmarkdown","Seurat","dplyr","GEOquery","R.utils", "here", "markdown","remotes","distances","harmony","Rfast","densvis","batchelor","glmGamPoi"))'
+    Rscript -e 'install.packages("BiocManager", version="3.21")'
+    Rscript -e 'BiocManager::install(c("scDesign3","SingleCellExperiment","readr","rmarkdown","Seurat","dplyr","GEOquery","R.utils", "here", "markdown","remotes","distances","harmony","Rfast","densvis","batchelor","glmGamPoi","argparse"))'
     Rscript -e 'BiocManager::install("miraisolutions/godmode")'
     Rscript -e 'BiocManager::install("satijalab/seurat-wrappers")'
 
-    Rscript -e 'library(reticulate); install_python("3.10.18"); py_install("umap-learn")'
+    Rscript -e 'library(reticulate); install_python("3.10.18"); py_install("umap-learn==0.5.7")'
 
     #echo '. /opt/py310-umap/bin/activate' >> $SINGULARITY_ENVIRONMENT
 
