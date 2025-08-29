@@ -19,12 +19,10 @@ From: rocker/tidyverse:4.5.1
     #./configure --enable-optimizations --enable-shared
     #make -j 4
     #make altinstall
-
     # virtualenv
     #cd /opt
     #python3.10 -m venv "py310-umap"
     #. py310-umap/bin/activate
-
     #pip install umap-learn==0.5.8
 
     ## no versioning here - fcps deps
