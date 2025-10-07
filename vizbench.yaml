@@ -1,59 +1,46 @@
 id: vizbench_apptainer
+<<<<<<< HEAD
 description: An Omnibenchmark port reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
 version: 0.1
+=======
+description: An OMNI reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
+version: 0.01
+>>>>>>> f186de28d13b65281afa2d1586ee33d46267e560
 benchmarker: "Mark D. Robinson, other contributors to be added"
 benchmark_yaml_spec: 0.04
+#storage: http://omnibenchmark.org:9000
 #storage_api: S3
 #storage_bucket_name: foo
 software_backend: apptainer
 software_environments:
   r-451-bioc-321-apptainer:
+<<<<<<< HEAD
     description: "clustbench on py3.12.6"
     apptainer: envs/clustbench.sif
 
+=======
+    description: "rocker/tidyverse:4.5.1-based image w/ Bioc (NOTE: BioC/R packages not locked down)"
+    apptainer: envs/r-451-bioc-321-apptainer.sif
+    conda: envs/r-451-bioc-321-dummy.yml
+>>>>>>> f186de28d13b65281afa2d1586ee33d46267e560
 stages:
   ## rawdata ##########################################################
 
   - id: rawdata
     modules:
       - id: mouse_pancreas 
-        name: "mouse pancrease dataset from https://pubmed.ncbi.nlm.nih.gov/27667365/
+        name: "mouse pancrease dataset from https://pubmed.ncbi.nlm.nih.gov/27667365/"
         software_environment: r-451-bioc-321-apptainer
         repository:
-          url: https://github.com/markrobinsonuzh/vizbench-r
-          commit: 975ff36
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: 5b7c441c
+          #url: /home/mark/projects/omb/vizbench/vizbench-r
+          #commit: 5b7c441
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
     outputs:
       - id: rawdata.sce
-        path: "{input}/{stage}/{module}/{params}/{dataset}.sce.rds"
-
-#  ## simulation #########################################################
-#  
-#  - id: clustering
-#    modules:
-#      - id: fastcluster
-#        name: "fastcluster algorithm"
-#        software_environment: "clustbench"
-#        repository:
-#          url: https://github.com/imallona/clustbench_fastcluster
-#          # url: /home/imallona/src/clustbench_fastcluster/
-#          commit: "45e43d3"
-#        parameters:
-#          - values: ["--linkage", "median"]
-#          - values: ["--linkage", "centroid"]
-#      - id: sklearn
-#        name: "sklearn"
-#        software_environment: "clustbench"
-#        repository:
-#          url: https://github.com/imallona/clustbench_sklearn
-#          #url: /home/imallona/src/clustbench_sklearn
-#          commit: 5877378
-#        parameters:
-#          - values: ["--method", "birch"]
-#          - values: ["--method", "kmeans"]
-#          # - values: ["--method", "spectral"] ## too slow
-#          - values: ["--method", "gm"]
+        path: "{dataset}.sce.rds"
 
 #    inputs:
 #      - entries:
@@ -94,4 +81,7 @@ stages:
 #    outputs:
 #      - id: plotting.html
 #        path: "{input}/{name}/plotting_report.html"
+<<<<<<< HEAD
 
+=======
+>>>>>>> f186de28d13b65281afa2d1586ee33d46267e560

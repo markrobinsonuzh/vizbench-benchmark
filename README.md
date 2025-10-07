@@ -1,2 +1,2 @@
 # vizbench-benchmark
-A collection of definition for an OMNIBENCHMARK about 2D viz of single-cell RNA-seq data
+The Omnibenchmark definition for 2D viz of single-cell RNA-seq benchmark
