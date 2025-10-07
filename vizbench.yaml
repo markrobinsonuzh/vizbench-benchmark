@@ -1,11 +1,6 @@
 id: vizbench_apptainer
-<<<<<<< HEAD
-description: An Omnibenchmark port reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
-version: 0.1
-=======
 description: An OMNI reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
 version: 0.01
->>>>>>> f186de28d13b65281afa2d1586ee33d46267e560
 benchmarker: "Mark D. Robinson, other contributors to be added"
 benchmark_yaml_spec: 0.04
 #storage: http://omnibenchmark.org:9000
@@ -14,15 +9,10 @@ benchmark_yaml_spec: 0.04
 software_backend: apptainer
 software_environments:
   r-451-bioc-321-apptainer:
-<<<<<<< HEAD
-    description: "clustbench on py3.12.6"
-    apptainer: envs/clustbench.sif
-
-=======
     description: "rocker/tidyverse:4.5.1-based image w/ Bioc (NOTE: BioC/R packages not locked down)"
     apptainer: envs/r-451-bioc-321-apptainer.sif
     conda: envs/r-451-bioc-321-dummy.yml
->>>>>>> f186de28d13b65281afa2d1586ee33d46267e560
+
 stages:
   ## rawdata ##########################################################
 
@@ -40,7 +30,7 @@ stages:
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
     outputs:
       - id: rawdata.sce
-        path: "{dataset}.sce.rds"
+        path: "{dataset}.ad"
 
 #    inputs:
 #      - entries:
@@ -81,7 +71,3 @@ stages:
 #    outputs:
 #      - id: plotting.html
 #        path: "{input}/{name}/plotting_report.html"
-<<<<<<< HEAD
-
-=======
->>>>>>> f186de28d13b65281afa2d1586ee33d46267e560
