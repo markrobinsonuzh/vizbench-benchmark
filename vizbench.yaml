@@ -11,7 +11,7 @@ software_environments:
   r-451-bioc-321-apptainer:
     description: "rocker/tidyverse:4.5.1-based image w/ Bioc (NOTE: BioC/R packages not locked down)"
     apptainer: envs/r-451-bioc-321-apptainer.sif
-    conda: envs/r-451-bioc-321.yml
+    conda: envs/r-451-bioc-321-dummy.yml
 stages:
   ## rawdata ##########################################################
 
