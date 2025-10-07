@@ -23,14 +23,31 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: 5b7c441c
-          #url: /home/mark/projects/omb/vizbench/vizbench-r
-          #commit: 5b7c441
+            commit: 46a5f1a
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
     outputs:
-      - id: rawdata.sce
+      - id: rawdata.ad
         path: "{dataset}.ad"
+
+
+  - id: simulation
+    modules:
+      - id: simulation
+        name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: 46a5f1a
+        parameters:
+          - values: ["--what", "simulation", "--flavour", "simulation"]
+    inputs:
+      - entries:
+          - rawdata.ad
+    outputs:
+      - id: simdata.ad
+        path: "{dataset}.ad"
+
 
 #    inputs:
 #      - entries:
