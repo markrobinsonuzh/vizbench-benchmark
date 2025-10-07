@@ -1,8 +1,7 @@
 id: vizbench_apptainer
-description: An OMNI reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
+description: An Omnibenchmark port reconstruction of Jessica Li Group's single-cell 2D viz benchmark 
 version: 0.1
 benchmarker: "Mark D. Robinson, other contributors to be added"
-#storage: http://omnibenchmark.org:9000
 benchmark_yaml_spec: 0.04
 #storage_api: S3
 #storage_bucket_name: foo
@@ -11,19 +10,6 @@ software_environments:
   r-451-bioc-321-apptainer:
     description: "clustbench on py3.12.6"
     apptainer: envs/clustbench.sif
-
-#metric_collectors:
-#  - id: plotting
-#    name: "Single-backend metric collector."
-#    software_environment: "rmarkdown"
-#    repository:
-#      url: https://github.com/imallona/clustering_report
-#      commit: 1d6bdf5
-#    inputs:
-#      - metrics.scores
-#    outputs:
-#      - id: plotting.html
-#        path: "{input}/{name}/plotting_report.html"
 
 stages:
   ## rawdata ##########################################################
@@ -95,4 +81,17 @@ stages:
 #    outputs:
 #      - id: metrics.scores
 #        path: "{input}/{stage}/{module}/{params}/{dataset}.scores.gz"
+
+#metric_collectors:
+#  - id: plotting
+#    name: "Single-backend metric collector."
+#    software_environment: "rmarkdown"
+#    repository:
+#      url: https://github.com/imallona/clustering_report
+#      commit: 1d6bdf5
+#    inputs:
+#      - metrics.scores
+#    outputs:
+#      - id: plotting.html
+#        path: "{input}/{name}/plotting_report.html"
 
