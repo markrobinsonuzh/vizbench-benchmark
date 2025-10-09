@@ -26,12 +26,13 @@ stages:
             commit: be98151
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
+          - values: ["--what", "rawdata", "--flavour", "xxx"]  # add other datasets
     outputs:
       - id: rawdata.ad
         path: "{dataset}.ad"
 
 
-  - id: simulation
+  - id: simulate
     modules:
       - id: scdesign3
         name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
@@ -40,7 +41,7 @@ stages:
             url: https://github.com/markrobinsonuzh/vizbench-r
             commit: be98151
         parameters:
-          - values: ["--what", "simulation", "--flavour", "scdesign3"]
+          - values: ["--what", "simulate", "--flavour", "scdesign3"]
     inputs:
       - entries:
           - rawdata.ad
@@ -49,23 +50,42 @@ stages:
         path: "{dataset}.ad"
 
 
-  - id: normalization
+  - id: normalize
     modules:
-      - id: normalization
+      - id: normalize-r
         name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
             commit: be98151
         parameters:
-          - values: ["--what", "normalization", "--flavour", "log1pCP10k"]
-          - values: ["--what", "normalization", "--flavour", "log1pCPM"]
+          - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
+          - values: ["--what", "normalize", "--flavour", "log1pCPM"]
+          #- values: ["--what", "normalize", "--flavour", "xx"] # add other normalization methods
     inputs:
       - entries:
           - simdata.ad
     outputs:
       - id: normdata.ad
         path: "{dataset}.ad"
+
+
+#  - id: integrate
+#    modules:
+#      - id: integrate-r
+#        name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
+#        software_environment: r-451-bioc-321-apptainer
+#        repository:
+#            url: https://github.com/markrobinsonuzh/vizbench-r
+#            commit: be98151
+#        parameters:
+#          #- values: ["--what", "normalization", "--flavour", "xx"] # add other integration methods
+#    inputs:
+#      - entries:
+#          - normdata.ad
+#    outputs:
+#      - id: intdata.ad
+#        path: "{dataset}.ad"
 
 
 
