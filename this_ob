@@ -1,0 +1,4 @@
+ob run validate -b vizbench.yaml
+ob info topology -b vizbench.yaml  > vizbench.mmd
+#ob run module -b vizbench.yaml -m mouse_pancreas --keep-module-logs
+ob run benchmark -b vizbench.yaml

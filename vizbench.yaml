@@ -9,13 +9,12 @@ benchmark_yaml_spec: 0.04
 software_backend: apptainer
 software_environments:
   r-451-bioc-321-apptainer:
-    description: "rocker/tidyverse:4.5.1-based image w/ Bioc (NOTE: BioC/R packages not locked down)"
+    description: "rocker/tidyverse:4.5.1-based image w/ Bioc 3.21 (NOTE: BioC/R packages not locked down)"
     apptainer: envs/r-451-bioc-321-apptainer.sif
     conda: envs/r-451-bioc-321-dummy.yml
 
 stages:
   ## rawdata ##########################################################
-
   - id: rawdata
     modules:
       - id: mouse_pancreas 
@@ -26,12 +25,11 @@ stages:
             commit: cce624c 
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
-          - values: ["--what", "rawdata", "--flavour", "xxx"]  # add other datasets
+            #- values: ["--what", "rawdata", "--flavour", "xxx"]  # add other datasets
     outputs:
       - id: rawdata.ad
         path: "{dataset}.ad"
-
-
+  ## simulate ##########################################################
   - id: simulate
     modules:
       - id: scdesign3
@@ -48,11 +46,18 @@ stages:
     outputs:
       - id: simdata.ad
         path: "{dataset}.ad"
-
-
+  ## normalize ##########################################################
   - id: normalize
     modules:
-      - id: normalize-r
+      - id: log1pCP10k
+        name: "normalization function implemented in R"
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: cce624c
+        parameters:
+          - values: ["--what", "normalize", "--flavour", "log1pCPM"]
+      - id: log1pCPM
         name: "normalization function implemented in R"
         software_environment: r-451-bioc-321-apptainer
         repository:
@@ -60,8 +65,6 @@ stages:
             commit: cce624c
         parameters:
           - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
-          - values: ["--what", "normalize", "--flavour", "log1pCPM"]
-          #- values: ["--what", "normalize", "--flavour", "xx"] # add other normalization methods
     inputs:
       - entries:
           - simdata.ad
