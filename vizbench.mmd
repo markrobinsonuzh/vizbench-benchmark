@@ -1,0 +1,31 @@
+---
+title: vizbench_apptainer
+---
+flowchart LR
+	classDef param fill:#f96
+	subgraph rawdata
+		mouse_pancreas
+	end
+	subgraph simulate
+		scdesign3
+		mouse_pancreas --> scdesign3
+	end
+	subgraph normalize
+		normalize-r
+		scdesign3 --> normalize-r
+	end
+	subgraph params_mouse_pancreas
+		fc73cbc33384e8af805caeef63502009dc5d075fed448a55aa108e5cf0fc651a['--flavour', 'mouse_pancreas', '--what', 'rawdata']
+		340b6408e2c48fb9c368678a0f78807faecaa2c1631b08187b0a91f881c3ab13['--flavour', 'xxx', '--what', 'rawdata']
+	end
+	params_mouse_pancreas:::param --o mouse_pancreas
+	subgraph params_scdesign3
+		06aea85bb999c0398a2a7c1a08e86d1b422d4e47769d50f09d32814fd33901c2['--flavour', 'scdesign3', '--what', 'simulate']
+	end
+	params_scdesign3:::param --o scdesign3
+	subgraph params_normalize-r
+		d895128a3df90e482e6b5463b5194dd9c30ffe920969a1080b853c96298efbba['--flavour', 'log1pCP10k', '--what', 'normalize']
+		e20ecb3e2b36a2aac4acc23942f4db971db9ff1df7da16379f2827a9ae1c1f2d['--flavour', 'log1pCPM', '--what', 'normalize']
+	end
+	params_normalize-r:::param --o normalize-r
+

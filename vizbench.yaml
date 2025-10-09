@@ -23,7 +23,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: be98151
+            commit: cce624c 
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
           - values: ["--what", "rawdata", "--flavour", "xxx"]  # add other datasets
@@ -39,7 +39,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: be98151
+            commit: cce624c
         parameters:
           - values: ["--what", "simulate", "--flavour", "scdesign3"]
     inputs:
@@ -53,11 +53,11 @@ stages:
   - id: normalize
     modules:
       - id: normalize-r
-        name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
+        name: "normalization function implemented in R"
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: be98151
+            commit: cce624c
         parameters:
           - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
           - values: ["--what", "normalize", "--flavour", "log1pCPM"]
