@@ -23,7 +23,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: 46a5f1a
+            commit: be98151
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
     outputs:
@@ -33,20 +33,40 @@ stages:
 
   - id: simulation
     modules:
-      - id: simulation
+      - id: scdesign3
         name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: 46a5f1a
+            commit: be98151
         parameters:
-          - values: ["--what", "simulation", "--flavour", "simulation"]
+          - values: ["--what", "simulation", "--flavour", "scdesign3"]
     inputs:
       - entries:
           - rawdata.ad
     outputs:
       - id: simdata.ad
         path: "{dataset}.ad"
+
+
+  - id: normalization
+    modules:
+      - id: normalization
+        name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: be98151
+        parameters:
+          - values: ["--what", "normalization", "--flavour", "log1pCP10k"]
+          - values: ["--what", "normalization", "--flavour", "log1pCPM"]
+    inputs:
+      - entries:
+          - simdata.ad
+    outputs:
+      - id: normdata.ad
+        path: "{dataset}.ad"
+
 
 
 #    inputs:
