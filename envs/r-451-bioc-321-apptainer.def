@@ -14,7 +14,7 @@ From: rocker/tidyverse:4.5.1
 
     ## no versioning here 
     Rscript -e 'install.packages("BiocManager", version="3.21")'
-    Rscript -e 'BiocManager::install(c("scDesign3","SingleCellExperiment","readr","rmarkdown","Seurat","dplyr","GEOquery","R.utils", "here", "markdown","remotes","distances","harmony","Rfast","densvis","batchelor","glmGamPoi","argparse"))'
+    Rscript -e 'BiocManager::install(c("scDesign3","SingleCellExperiment","readr","rmarkdown","Seurat","dplyr","GEOquery","R.utils", "here", "markdown","remotes","distances","harmony","Rfast","densvis","batchelor","glmGamPoi","argparse","rjson"))'
     Rscript -e 'BiocManager::install("miraisolutions/godmode")'
     Rscript -e 'BiocManager::install("satijalab/seurat-wrappers")'
     Rscript -e 'BiocManager::install("scverse/anndataR", ref="1001ff7")'

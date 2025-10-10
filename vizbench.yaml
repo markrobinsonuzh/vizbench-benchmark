@@ -22,13 +22,14 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: cce624c 
+            commit: f33f957
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
             #- values: ["--what", "rawdata", "--flavour", "xxx"]  # add other datasets
     outputs:
       - id: rawdata.ad
-        path: "{dataset}.ad"
+        path: "{dataset}_rawdata.ad"
+
   ## simulate ##########################################################
   - id: simulate
     modules:
@@ -37,59 +38,57 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: cce624c
+            commit: f33f957
         parameters:
           - values: ["--what", "simulate", "--flavour", "scdesign3"]
     inputs:
       - entries:
           - rawdata.ad
     outputs:
-      - id: simdata.ad
-        path: "{dataset}.ad"
+      - id: simulate.ad
+        path: "{dataset}_simulate.ad"
+
   ## normalize ##########################################################
   - id: normalize
     modules:
-      - id: log1pCP10k
-        name: "normalization function implemented in R"
+      - id: normalize-r
+        name: "normalization functions implemented in R"
         software_environment: r-451-bioc-321-apptainer
         repository:
-            url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: cce624c
+          url: https://github.com/markrobinsonuzh/vizbench-r
+          commit: 980047f
         parameters:
-          - values: ["--what", "normalize", "--flavour", "log1pCPM"]
-      - id: log1pCPM
-        name: "normalization function implemented in R"
-        software_environment: r-451-bioc-321-apptainer
-        repository:
-            url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: cce624c
-        parameters:
-          - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
+            - values: ["--what", "normalize", "--flavour", "log1pCPM"]
+            - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
     inputs:
       - entries:
-          - simdata.ad
+        - simulate.ad
     outputs:
-      - id: normdata.ad
-        path: "{dataset}.ad"
+      - id: normalize.ad
+        path: "{dataset}_normalize.ad"
+      - id: normalize.json
+        path: "{dataset}_normalize.json"
 
-
-#  - id: integrate
-#    modules:
-#      - id: integrate-r
-#        name: "simulator from scdesign3: https://doi.org/10.1038/s41587-023-01772-1"
-#        software_environment: r-451-bioc-321-apptainer
-#        repository:
-#            url: https://github.com/markrobinsonuzh/vizbench-r
-#            commit: be98151
-#        parameters:
-#          #- values: ["--what", "normalization", "--flavour", "xx"] # add other integration methods
-#    inputs:
-#      - entries:
-#          - normdata.ad
-#    outputs:
-#      - id: intdata.ad
-#        path: "{dataset}.ad"
-
+  ## integrate ##########################################################
+  - id: integrate
+    modules:
+      - id: integrate-r
+        name: "integration methods implemented in R"
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: 980047f
+        parameters:
+          - values: ["--what", "integrate", "--flavour", "harmony"] # add other integration methods
+          - values: ["--what", "integrate", "--flavour", "fastMNN"] # add other integration methods
+          #- values: ["--what", "integrate", "--flavour", "xx"] # add other integration methods
+    inputs:
+      - entries:
+          - normalize.ad
+          - normalize.json
+    outputs:
+      - id: integrate.ad
+        path: "{dataset}_integrate.ad"
 
 
 #    inputs:
