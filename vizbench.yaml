@@ -56,7 +56,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
           url: https://github.com/markrobinsonuzh/vizbench-r
-          commit: 980047f
+          commit: 6c681a8
         parameters:
             - values: ["--what", "normalize", "--flavour", "log1pCPM"]
             - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
@@ -77,10 +77,10 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: 980047f
+            commit: 7064153
         parameters:
           - values: ["--what", "integrate", "--flavour", "harmony"] # add other integration methods
-          - values: ["--what", "integrate", "--flavour", "fastMNN"] # add other integration methods
+          #- values: ["--what", "integrate", "--flavour", "fastMNN"] # add other integration methods
           #- values: ["--what", "integrate", "--flavour", "xx"] # add other integration methods
     inputs:
       - entries:
