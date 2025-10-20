@@ -18,5 +18,6 @@ From: rocker/tidyverse:4.5.1
     Rscript -e 'BiocManager::install("miraisolutions/godmode")'
     Rscript -e 'BiocManager::install("satijalab/seurat-wrappers")'
     Rscript -e 'BiocManager::install("scverse/anndataR", ref="1001ff7")'
+    Rscript -e 'BiocManager::install("immunogenomics/lisi")'
 
     Rscript -e 'library(reticulate); install_python("3.10.18"); py_install("umap-learn==0.5.7")'
