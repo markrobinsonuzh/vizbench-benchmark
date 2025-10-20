@@ -11,10 +11,20 @@ flowchart LR
 		mouse_pancreas --> scdesign3
 	end
 	subgraph normalize
-		log1pCP10k
-		scdesign3 --> log1pCP10k
-		log1pCPM
-		scdesign3 --> log1pCPM
+		normalize-r
+		scdesign3 --> normalize-r
+	end
+	subgraph integrate
+		integrate-r
+		normalize-r --> integrate-r
+	end
+	subgraph visualize
+		visualize-r
+		integrate-r --> visualize-r
+	end
+	subgraph metrics
+		metrics-r
+		visualize-r --> metrics-r
 	end
 	subgraph params_mouse_pancreas
 		fc73cbc33384e8af805caeef63502009dc5d075fed448a55aa108e5cf0fc651a['--flavour', 'mouse_pancreas', '--what', 'rawdata']
@@ -24,12 +34,22 @@ flowchart LR
 		06aea85bb999c0398a2a7c1a08e86d1b422d4e47769d50f09d32814fd33901c2['--flavour', 'scdesign3', '--what', 'simulate']
 	end
 	params_scdesign3:::param --o scdesign3
-	subgraph params_log1pCP10k
+	subgraph params_normalize-r
 		e20ecb3e2b36a2aac4acc23942f4db971db9ff1df7da16379f2827a9ae1c1f2d['--flavour', 'log1pCPM', '--what', 'normalize']
-	end
-	params_log1pCP10k:::param --o log1pCP10k
-	subgraph params_log1pCPM
 		d895128a3df90e482e6b5463b5194dd9c30ffe920969a1080b853c96298efbba['--flavour', 'log1pCP10k', '--what', 'normalize']
 	end
-	params_log1pCPM:::param --o log1pCPM
+	params_normalize-r:::param --o normalize-r
+	subgraph params_integrate-r
+		bd70d71f3f4910f3c726ab3892536a2036b82b9350f5e206e3c3a44d85c76b95['--flavour', 'harmony', '--what', 'integrate']
+	end
+	params_integrate-r:::param --o integrate-r
+	subgraph params_visualize-r
+		f10b3609fbf2c8bb9d98ae7e7f323cfd70d5be2498866700ce7f9ed9ccc21d6d['--flavour', 'SeuratUMAP', '--what', 'visualize']
+	end
+	params_visualize-r:::param --o visualize-r
+	subgraph params_metrics-r
+		b0ac0d209951dd1430885d138d00b018eaad6da9b7e36aeadfc7815353802619['--flavour', 'celltype_shape', '--what', 'metric']
+		9cbf2f16362bc72fd86d2f28442b691fd100cff6cc691de2438a00e8ba81ade3['--flavour', 'batch_mixture', '--what', 'metric']
+	end
+	params_metrics-r:::param --o metrics-r
 

@@ -105,7 +105,6 @@ stages:
             commit: 218789a
         parameters:
           - values: ["--what", "visualize", "--flavour", "SeuratUMAP"]
-          #- values: ["--what", "visualize", "--flavour", "fastMNN"]
           #- values: ["--what", "visualize", "--flavour", "xx"] # add other viz methods
     inputs:
       - entries:
@@ -122,9 +121,10 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: 218789a
+            commit: 29299b7
         parameters:
-          - values: ["--what", "metric", "--flavour", "SeuratUMAP"]
+          - values: ["--what", "metric", "--flavour", "celltype_shape"]
+          - values: ["--what", "metric", "--flavour", "batch_mixture"]
           #- values: ["--what", "metric", "--flavour", "xx"] # add other metrics
     inputs:
       - entries:
