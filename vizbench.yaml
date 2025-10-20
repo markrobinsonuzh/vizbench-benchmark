@@ -12,6 +12,10 @@ software_environments:
     description: "rocker/tidyverse:4.5.1-based image w/ Bioc 3.21 (NOTE: BioC/R packages not locked down)"
     apptainer: envs/r-451-bioc-321-apptainer.sif
     conda: envs/r-451-bioc-321-dummy.yml
+#  r-451-bioc-321-apptainer-python:
+#description: "rocker/tidyverse:4.5.1-based image w/ Bioc 3.21 (NOTE: BioC/R packages not locked down); different strategy to python"
+#apptainer: envs/r-451-bioc-321-apptainer-python.sif
+#conda: envs/r-451-bioc-321-dummy.yml
 
 stages:
   ## rawdata ##########################################################
@@ -22,7 +26,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: f33f957
+            commit: 790307e
         parameters:  
           - values: ["--what", "rawdata", "--flavour", "mouse_pancreas"] 
             #- values: ["--what", "rawdata", "--flavour", "xxx"]  # add other datasets
@@ -38,7 +42,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: f33f957
+            commit: 790307e
         parameters:
           - values: ["--what", "simulate", "--flavour", "scdesign3"]
     inputs:
@@ -56,7 +60,7 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
           url: https://github.com/markrobinsonuzh/vizbench-r
-          commit: 6c681a8
+          commit: 2dd9794
         parameters:
             - values: ["--what", "normalize", "--flavour", "log1pCPM"]
             - values: ["--what", "normalize", "--flavour", "log1pCP10k"]
@@ -77,10 +81,10 @@ stages:
         software_environment: r-451-bioc-321-apptainer
         repository:
             url: https://github.com/markrobinsonuzh/vizbench-r
-            commit: 7064153
+            commit: 79fe896
         parameters:
-          - values: ["--what", "integrate", "--flavour", "harmony"] # add other integration methods
-          #- values: ["--what", "integrate", "--flavour", "fastMNN"] # add other integration methods
+          - values: ["--what", "integrate", "--flavour", "harmony"] 
+          #- values: ["--what", "integrate", "--flavour", "fastMNN"]
           #- values: ["--what", "integrate", "--flavour", "xx"] # add other integration methods
     inputs:
       - entries:
@@ -89,6 +93,48 @@ stages:
     outputs:
       - id: integrate.ad
         path: "{dataset}_integrate.ad"
+
+  ## visualize ##########################################################
+  - id: visualize
+    modules:
+      - id: visualize-r
+        name: "2D visualization methods implemented in R"
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: 218789a
+        parameters:
+          - values: ["--what", "visualize", "--flavour", "SeuratUMAP"]
+          #- values: ["--what", "visualize", "--flavour", "fastMNN"]
+          #- values: ["--what", "visualize", "--flavour", "xx"] # add other viz methods
+    inputs:
+      - entries:
+          - integrate.ad
+    outputs:
+      - id: visualize.csv.gz
+        path: "{dataset}_visualize.csv.gz"
+
+  ## metics ##########################################################
+  - id: metrics
+    modules:
+      - id: metrics-r
+        name: "given embeddings, compute some metrics (in R)"
+        software_environment: r-451-bioc-321-apptainer
+        repository:
+            url: https://github.com/markrobinsonuzh/vizbench-r
+            commit: 218789a
+        parameters:
+          - values: ["--what", "metric", "--flavour", "SeuratUMAP"]
+          #- values: ["--what", "metric", "--flavour", "xx"] # add other metrics
+    inputs:
+      - entries:
+          - visualize.csv.gz
+          - integrate.ad
+    outputs:
+      - id: metric.json
+        path: "{dataset}_metric.json"
+
+
 
 
 #    inputs:

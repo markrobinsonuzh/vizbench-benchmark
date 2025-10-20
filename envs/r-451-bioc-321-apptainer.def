@@ -7,36 +7,16 @@ From: rocker/tidyverse:4.5.1
 
 %post
 
-    apt-get update && apt-get install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev \
-        libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev \
-        python-is-python3 git libgsl-dev libglpk-dev libxml2-dev gfortran python3-pip 
-
-    # Install Miniconda (Python)
-    wget -qO /tmp/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    bash /tmp/miniconda.sh -b -p /opt/conda && rm /tmp/miniconda.sh
-
-    # Initialize conda
-    /opt/conda/bin/conda init bash
-    /opt/conda/bin/conda config --add channels defaults
-    /opt/conda/bin/conda config --add channels conda-forge
-    /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
-    /opt/conda/bin/conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
-    /opt/conda/bin/conda update -y conda
-
-    # (Optional) install useful Python packages
-    /opt/conda/bin/conda install -y python==3.10.18 umap-learn==0.5.7
-
-    # Clean caches
-    /opt/conda/bin/conda clean --all --yes
+    apt-get update
+    apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev \
+        libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev python-is-python3 git \
+        libgsl-dev libglpk-dev libxml2-dev gfortran
 
     ## no versioning here 
     Rscript -e 'install.packages("BiocManager", version="3.21")'
-    Rscript -e 'BiocManager::install(c("scDesign3","SingleCellExperiment","readr","rmarkdown","Seurat","dplyr","GEOquery","R.utils","here","markdown","remotes","distances","harmony","Rfast","densvis","batchelor","glmGamPoi","argparse","rjson"))'
+    Rscript -e 'BiocManager::install(c("scDesign3","SingleCellExperiment","readr","rmarkdown","Seurat","dplyr","GEOquery","R.utils", "here", "markdown","remotes","distances","harmony","Rfast","densvis","batchelor","glmGamPoi","argparse","rjson"), Ncpus=8)'
     Rscript -e 'BiocManager::install("miraisolutions/godmode")'
     Rscript -e 'BiocManager::install("satijalab/seurat-wrappers")'
     Rscript -e 'BiocManager::install("scverse/anndataR", ref="1001ff7")'
 
-%environment
-    export PATH=/opt/conda/bin:$PATH
-    export LC_ALL=C
-    export LANG=C.UTF-8
+    Rscript -e 'library(reticulate); install_python("3.10.18"); py_install("umap-learn==0.5.7")'
